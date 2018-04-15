@@ -4,53 +4,72 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+
 import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
+    Platform,
+    StyleSheet,
+    Text,
+    View,
 } from 'react-native';
 
+
+import incidentsListPage from './app/screen/incdentsListPage';
+import loginForm from './app/screen/loginForm';
+import mainPage from './app/screen/mainPage';
+import preferencesPage from './app/screen/preferencesPage';
+import profilePage from './app/screen/profilePage';
+import welcomePage from './app/screen/welcomePage';
+
+
+import {StackNavigator} from 'react-navigation'
+
 const instructions = Platform.select({
-  ios: '#Hello React',
-  android: '#Hello React',
+    ios: '#Hello React',
+    android: '#Hello React',
 });
+
+const Navigation = StackNavigator({
+        WelcomePage: {screen: welcomePage},
+        loginForm: {screen: loginForm},
+        preferences: {screen: preferencesPage},
+        mainPage: {screen: mainPage},
+        incidentsListPage: {screen: incidentsListPage},
+        profilePage: {screen: profilePage},
+
+    },
+    {
+        navigationOptions: {
+            headerMode: 'screen'
+        }
+    }
+    )
+;
 
 type Props = {};
 export default class App extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Fist init
-        </Text>
-        <Text style={styles.instructions}>
-          test
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
-    );
-  }
+    render() {
+        return <Navigation/>;
+    }
+
+
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+    },
+    welcome: {
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 10,
+    },
+    instructions: {
+        textAlign: 'center',
+        color: '#333333',
+        marginBottom: 5,
+    },
 });

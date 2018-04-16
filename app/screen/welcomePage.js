@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+    Button,
     Platform,
     StyleSheet,
     Text,
@@ -15,12 +16,12 @@ export default class welcomePage extends React.Component {
         const {navigate} = this.props.navigation;
         return (
             <View style={styles.container}>
-                <Text>
+                <Text style = {{fontSize: 40}}>
                     Witaj w aplikacji
                 </Text>
-                <Text onPress={() => navigate('loginForm')}>Przejdz dalej do logowania</Text>
-                <Text onPress={() => navigate('profilePage')}>Przejdz dalej do profilu</Text>
-                <Text onPress={() => navigate('mainPage')}>Przejdz dalej do glownego widoku</Text>
+                <Button title={"Logowanie"} style={styles.button} onPress={() => navigate('loginForm')}/>
+                <Button title={"Profil"} style={styles.button} onPress={() => navigate('profilePage')}/>
+                <Button title={"Mapa"} style={styles.button} onPress={() => navigate('mainPage')}/>
             </View>
         );
     }

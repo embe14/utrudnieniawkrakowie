@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+    Button,
     Platform,
     StyleSheet,
     Text,
@@ -18,9 +19,9 @@ export default class profilePage extends React.Component {
                 <Text>
                     Witaj w profilu
                 </Text>
-                <Text onPress={() => navigate('loginForm')}>Przejdz dalej do logowania</Text>
-                <Text onPress={() => navigate('profilePage')}>Przejdz dalej do profilu</Text>
-                <Text onPress={() => navigate('mainPage')}>Przejdz dalej do glownego widoku</Text>
+                <Button title={"Logowanie"} style={styles.button} onPress={() => navigate('loginForm')}/>
+                <Button title={"Profil"} style={styles.button} onPress={() => navigate('profilePage')}/>
+                <Button title={"Mapa"} style={styles.button} onPress={() => navigate('mainPage')}/>
             </View>
         );
     }

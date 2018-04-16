@@ -24,11 +24,6 @@ import welcomePage from './app/screen/welcomePage';
 
 import {StackNavigator} from 'react-navigation'
 
-const instructions = Platform.select({
-    ios: '#Hello React',
-    android: '#Hello React',
-});
-
 const Navigation = StackNavigator({
         WelcomePage: {screen: welcomePage},
         loginForm: {screen: loginForm},

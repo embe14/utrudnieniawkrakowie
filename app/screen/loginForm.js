@@ -25,7 +25,7 @@ const formStyles = {
     },
     controlLabel: {
         normal: {
-            color: 'blue',
+            color: 'orange',
             fontSize: 18,
             marginBottom: 7,
             fontWeight: '600'
@@ -37,7 +37,7 @@ const formStyles = {
             marginBottom: 7,
             fontWeight: '600'
         }
-    }
+    },
 };
 
 const options = {
@@ -63,12 +63,23 @@ export default class loginForm extends React.Component{
         console.log('value: ', value);
     };
 
+    handleLoginGoogle = () => {
+        const value = this._form.getValue(); // use that ref to get the form value
+        console.log('value: ', value);
+    };
+
     render() {
         const {navigate} = this.props.navigation;
 
         return (
             <View style={styles.container}>
                 <Form ref={c => this._form = c} type={User} options={options}/>
+                <Button
+                    styles={styles.transparentButton}
+                    title="Zaloguj przez Google"
+                    onPress={this.handleLoginGoogle}
+                    color="#e47365"
+                />
                 <Button
                     title="Zaloguj!"
                     onPress={this.handleSubmit}

@@ -20,6 +20,7 @@ import mainPage from './app/screen/mainPage';
 import preferencesPage from './app/screen/preferencesPage';
 import profilePage from './app/screen/profilePage';
 import welcomePage from './app/screen/welcomePage';
+import signup from './app/screen/signup';
 
 
 import {StackNavigator} from 'react-navigation'
@@ -31,6 +32,7 @@ const Navigation = StackNavigator({
         mainPage: {screen: mainPage},
         incidentsListPage: {screen: incidentsListPage},
         profilePage: {screen: profilePage},
+        signup:{screen: signup},
 
     },
     {

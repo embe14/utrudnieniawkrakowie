@@ -1,13 +1,10 @@
-import React, {Component} from 'react';
+import React from 'react';
 import MapView from 'react-native-maps';
 
-import {
-    Button,
-    Platform,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
+
+import {Button, StyleSheet, Text, View,} from 'react-native';
+
+import profilePage from "./profilePage";
 
 
 export default class mainPage extends React.Component {
@@ -22,7 +19,9 @@ export default class mainPage extends React.Component {
     }
 
     static navigationOptions = {
-        title: 'mainPage',
+        drawerLabel: 'Mapa',
+
+
     };
 
     getLocation() {
@@ -44,7 +43,9 @@ export default class mainPage extends React.Component {
         const {navigate} = this.props.navigation;
         const {region} = this.props;
         return (
+
             <View style={styles.container}>
+
                 <MapView style={styles.map}
                          initialRegion={{
                              latitude: 50.0697015,
@@ -60,6 +61,7 @@ export default class mainPage extends React.Component {
                 </Text>
                 <Text>Latitude: {this.state.latitude}</Text>
                 <Text>Longitude: {this.state.longitude}</Text>
+                <Button title="Drawer" onPress={() => navigate('DrawerOpen')}/>
                 <Button title={"Logowanie"} style={styles.button} onPress={() => navigate('loginForm')}/>
                 <Button title={"Profil"} style={styles.button} onPress={() => navigate('profilePage')}/>
                 <Button title={"Mapa"} style={styles.button} onPress={() => navigate('mainPage')}/>
@@ -90,5 +92,14 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: 'blue',
 
+    },
+    icon: {
+        position: 'absolute',
+        width: 24,
+        height: 24,
+
+
     }
 });
+
+

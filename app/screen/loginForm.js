@@ -1,11 +1,5 @@
-import React, {Component} from 'react';
-import {
-    Platform,
-    StyleSheet,
-    Text,
-    View,
-    Button,
-} from 'react-native';
+import React from 'react';
+import {Button, StyleSheet, Text, View,} from 'react-native';
 
 import t from 'tcomb-form-native';
 
@@ -56,6 +50,7 @@ const options = {
 export default class loginForm extends React.Component{
     static navigationOptions = {
         title: 'Logowanie',
+        drawerLockMode: 'locked-closed'
     };
 
     handleSubmit = () => {

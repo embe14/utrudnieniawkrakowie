@@ -4,7 +4,8 @@ import {Image, StyleSheet, Text, View,} from 'react-native';
 
 export default class welcomePage extends React.Component {
     static navigationOptions = {
-        header: null
+        header: null,
+        drawerLockMode: 'locked-closed'
     };
 
     constructor(props) {

@@ -22,7 +22,7 @@ const Navigation = StackNavigator({
     },
     {
         navigationOptions: {
-            headerMode: 'screen'
+            header: null,
         }
     }
     )

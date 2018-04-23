@@ -1,14 +1,9 @@
-import React, {Component} from 'react';
-import {
-    Button,
-    Platform,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
+import React from 'react';
+import {Button, Text, View,} from 'react-native';
+
 export default class preferencesPage extends React.Component {
     static navigationOptions = {
-        title: 'preferencesPage',
+        title: 'Ustawienia',
     };
 
 

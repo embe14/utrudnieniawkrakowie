@@ -2,12 +2,13 @@ import React from 'react';
 import MapView from 'react-native-maps';
 
 
-import {Dimensions, Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Dimensions, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 
 export default class mainPage extends React.Component {
     static navigationOptions = {
         drawerLabel: null,
+        title: 'Mapa'
     };
 
     constructor(props) {
@@ -19,20 +20,21 @@ export default class mainPage extends React.Component {
             markers: [
                 {
                     latlng: {
-                        latitude: 50.0684783,
-                        longitude: 19.9549616,
+                        latitude: 50.068064,
+                        longitude: 19.952468,
                     },
                     title: 'UEK',
                     description: 'wykolejenie zajęć',
-                    image: require('./../assets/img/icons/accident.png')
+                    image: require('./../assets/img/icon/accident.png')
                 },
                 {
                     latlng: {
-                        latitude: 50.046428,
-                        longitude: 419.4445429,
+                        latitude: 50.056659,
+                        longitude: 19.945301,
                     },
                     title: "Wypadek",
-                    description: "kolizja osobowki i przegubowca z 501. Autobus w połowie blokuje pas w kierunku Armii Krajowej."
+                    description: "kolizja osobowki i przegubowca z 501. Autobus w połowie blokuje pas w kierunku Armii Krajowej.",
+                    image: require('./../assets/img/icon/accident.png')
                 }
 
             ],
@@ -92,11 +94,18 @@ export default class mainPage extends React.Component {
                         coordinate={{
                             latitude: 50.1684783,
                             longitude: 19.9549616
-                        }
-                        }
+                        }}
                         title="Wypadek"
                         description="kolizja osobowki i przegubowca z 501. Autobus w połowie blokuje pas w kierunku Armii Krajowej."
-                    />
+                    >
+                        <MapView.Callout>
+                            <TouchableOpacity onPress={() => navigate('DrawerOpen')}>
+                                <Text>Klik</Text>
+                            </TouchableOpacity>
+                        </MapView.Callout>
+                    </MapView.Marker>
+
+
                 </MapView>
 
 

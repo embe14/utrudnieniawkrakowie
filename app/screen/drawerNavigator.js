@@ -1,5 +1,5 @@
 import React from 'react';
-import {DrawerNavigator, StackNavigator} from 'react-navigation';
+import {DrawerNavigator} from 'react-navigation';
 import profilePage from "./profilePage";
 import preferencesPage from "./preferencesPage";
 import incdentsListPage from "./incdentsListPage";
@@ -9,39 +9,22 @@ import signup from "./signup";
 import welcomePage from "./welcomePage";
 
 
-const Navigation = StackNavigator({
+export default DrawerNavigator({
+        Maps: {screen: mainPage},
+        List: {screen: incdentsListPage},
+        Profile: {screen: profilePage},
+        Preferences: {screen: preferencesPage},
         WelcomePage: {screen: welcomePage},
         loginForm: {screen: loginForm},
-        preferences: {screen: preferencesPage},
-        mainPage: {screen: mainPage},
-        incidentsListPage: {screen: incdentsListPage},
-        profilePage: {screen: profilePage},
         signup: {screen: signup},
 
 
     },
     {
-        navigationOptions: {
-            header: null,
-        }
-    }
-    )
-;
-
-
-export default DrawerNavigator({
-        Profile: {screen: profilePage},
-        Preferences: {screen: preferencesPage},
-        List: {screen: incdentsListPage},
-        Maps: {screen: mainPage},
-        Navigation: {screen: Navigation}
-
-    },
-    {
         drawerPosition: 'left',
-        initialRouteName: 'Navigation',
+        initialRouteName: 'WelcomePage',
         drawerBackgroundColor: '#1bb584',
-        drawerWidth: 300
+        drawerWidth: 200,
     })
 
 

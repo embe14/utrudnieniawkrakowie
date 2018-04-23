@@ -2,27 +2,43 @@ import React from 'react';
 import MapView from 'react-native-maps';
 
 
-import {Button, StyleSheet, Text, View,} from 'react-native';
-
-import profilePage from "./profilePage";
+import {Dimensions, Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 
 
 export default class mainPage extends React.Component {
+    static navigationOptions = {
+        drawerLabel: null,
+    };
+
     constructor(props) {
         super(props);
         this.state = {
             latitude: null,
             longitude: null,
             error: null,
+            markers: [
+                {
+                    latlng: {
+                        latitude: 50.0684783,
+                        longitude: 19.9549616,
+                    },
+                    title: 'UEK',
+                    description: 'wykolejenie zajęć',
+                    image: require('./../assets/img/icons/accident.png')
+                },
+                {
+                    latlng: {
+                        latitude: 50.046428,
+                        longitude: 419.4445429,
+                    },
+                    title: "Wypadek",
+                    description: "kolizja osobowki i przegubowca z 501. Autobus w połowie blokuje pas w kierunku Armii Krajowej."
+                }
+
+            ],
         };
         this.getLocation();
     }
-
-    static navigationOptions = {
-        drawerLabel: 'Mapa',
-
-
-    };
 
     getLocation() {
         navigator.geolocation.getCurrentPosition(
@@ -38,13 +54,15 @@ export default class mainPage extends React.Component {
         );
     }
 
-
     render() {
         const {navigate} = this.props.navigation;
-        const {region} = this.props;
-        return (
 
+        return (
             <View style={styles.container}>
+
+                <TouchableOpacity style={styles.iconPosition} onPress={() => navigate('DrawerOpen')}>
+                    <Image style={styles.icon} source={require('./../assets/img/menu/hamburger.png')}/>
+                </TouchableOpacity>
 
                 <MapView style={styles.map}
                          initialRegion={{
@@ -55,16 +73,33 @@ export default class mainPage extends React.Component {
                          }}
                          showsUserLocation={true}
                          loadingEnabled={true}
-                />
-                <Text>
-                    Witaj w glownym oknie z mapa.
-                </Text>
-                <Text>Latitude: {this.state.latitude}</Text>
-                <Text>Longitude: {this.state.longitude}</Text>
-                <Button title="Drawer" onPress={() => navigate('DrawerOpen')}/>
-                <Button title={"Logowanie"} style={styles.button} onPress={() => navigate('loginForm')}/>
-                <Button title={"Profil"} style={styles.button} onPress={() => navigate('profilePage')}/>
-                <Button title={"Mapa"} style={styles.button} onPress={() => navigate('mainPage')}/>
+                         showsTraffic={true}
+                         customMapStyle={require('./../assets/config/style/mapStyle.json')}
+                >
+                    {this.state.markers.map(marker => (
+                        <MapView.Marker
+                            coordinate={marker.latlng}
+                            title={marker.title}
+                            description={marker.description}
+                        >
+                            <Image
+                                source={marker.image}
+                                style={{width: 50, height: 50}}
+                            />
+                        </MapView.Marker>
+                    ))}
+                    <MapView.Marker
+                        coordinate={{
+                            latitude: 50.1684783,
+                            longitude: 19.9549616
+                        }
+                        }
+                        title="Wypadek"
+                        description="kolizja osobowki i przegubowca z 501. Autobus w połowie blokuje pas w kierunku Armii Krajowej."
+                    />
+                </MapView>
+
+
             </View>
         );
     }
@@ -74,31 +109,35 @@ export default class mainPage extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
+        ...StyleSheet.absoluteFillObject,
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        height: 550,
-        width: 400,
         justifyContent: 'flex-end',
         alignItems: 'center',
+        backgroundColor: '#68ed89'
     },
     map: {
         ...StyleSheet.absoluteFillObject,
-        height: 400,
-        width: 400,
+        height: Dimensions.get('window').height / 1.5,
+        width: Dimensions.get('window').width,
     },
     button: {
         backgroundColor: 'blue',
 
     },
     icon: {
+        width: 30,
+        height: 30,
+    },
+
+    iconPosition: {
         position: 'absolute',
-        width: 24,
-        height: 24,
-
-
+        top: 30,
+        left: 30,
+        zIndex: 2
     }
 });
 

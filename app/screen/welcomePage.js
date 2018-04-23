@@ -14,9 +14,7 @@ export default class welcomePage extends React.Component {
 
     componentDidMount() {
         const {navigate} = this.props.navigation;
-        // Start counting when the page is loaded
         this.timeoutHandle = setTimeout(() => {
-            // Add your logic for the transition
             navigate('loginForm')
         }, 1500);
     }

@@ -11,12 +11,28 @@ import t from 'tcomb-form-native';
 
 const Form = t.form.Form;
 
-const User = t.struct({
-    email: t.String,
-    nick: t.String,
-    name: t.String,
-    surname: t.String,
-    password: t.String,
+let eventDurationEnum = t.enums({
+    15: '15 m',
+    30: '30 m',
+    60: '1 h',
+    180: '3 h',
+    360: '6 h',
+    1440: '24 h',
+});
+
+let eventTypeEnum = t.enums({
+   1: 'Type #1',
+   2: 'Type #2',
+   3: 'Type #3',
+   4: 'Type #4',
+   5: 'Type #5',
+});
+
+const Event = t.struct({
+    title: t.String,
+    description: t.String,
+    eventType: eventTypeEnum,
+    eventDuration: eventDurationEnum
 });
 
 const formStyles = {
@@ -45,25 +61,21 @@ const formStyles = {
 
 const options = {
     fields: {
-        email: {
-            error: 'Email address jest wymagany.',
-            keyboardType: 'email-address',
+        title: {
+            error: 'Tytuł jest wymagany.',
+            label: 'Tytuł',
         },
-        nick: {
-            error: 'Nick jest wymagany.'
+        description: {
+            error: 'Opis jest wymagany.',
+            label: 'Opis',
         },
-        name: {
-            error: 'Imię jest wymagane.',
-            label: 'Imię',
+        eventType: {
+            error: 'Typ zdarzenia jest wymagany.',
+            label: 'Typ zdarzenia',
         },
-        surname: {
-            error: 'Nazwisko jest wymagane.',
-            label: 'Nazwisko',
-        },
-        password: {
-            label: 'Hasło',
-            error: 'Hasło jest wymagane.',
-            secureTextEntry: true,
+        eventDuration: {
+            error: 'Czas trwania jest wymagany.',
+            label: 'Czas trwania',
         },
     },
     stylesheet: formStyles,
@@ -71,10 +83,15 @@ const options = {
 
 export default class signup extends React.Component {
     static navigationOptions = {
-        title: 'Stwórz konto',
+        title: 'Dodaj zdarzenia',
     };
 
     handleSubmit = () => {
+        const value = this._form.getValue(); // use that ref to get the form value
+        console.log('value: ', value);
+    };
+
+    handleImageUpload = () => {
         const value = this._form.getValue(); // use that ref to get the form value
         console.log('value: ', value);
     };
@@ -84,14 +101,19 @@ export default class signup extends React.Component {
         const {navigate} = this.props.navigation;
         return (
             <View style={styles.container}>
-                <Form ref={c => this._form = c} type={User} options={options}/>
-                <Text>
-                    Stworz konto - nick email haslo imie nazwisko
-                </Text>
+                <Form ref={c => this._form = c} type={Event} options={options}/>
+                <View style={{width: '50%', marginBottom: 50}}>
+                    <Button style={styles.buttonGoogleLogin}
+                        title="Dodaj zdjęcie"
+                        onPress={this.handleSubmit}
+                    />
+                </View>
+                <View>
                 <Button
-                    title="Rejestracja"
+                    title="Dodaj zdarzenie"
                     onPress={this.handleSubmit}
                 />
+                </View>
                 <Text onPress={() => navigate('loginForm')}>Przejdz do logowania</Text>
             </View>
         );

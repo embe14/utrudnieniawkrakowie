@@ -21,6 +21,7 @@ export default class welcomePage extends React.Component {
                 </Text>
                 <Button title={"Logowanie"} style={styles.button} onPress={() => navigate('loginForm')}/>
                 <Button title={"Rejestracja"} style={styles.button} onPress={() => navigate('signup')}/>
+                <Button title={"Zglos zdarzenie"} style={styles.button} onPress={() => navigate('event')}/>
                 <Button title={"Profil"} style={styles.button} onPress={() => navigate('profilePage')}/>
                 <Button title={"Mapa"} style={styles.button} onPress={() => navigate('mainPage')}/>
             </View>

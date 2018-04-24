@@ -21,6 +21,7 @@ import preferencesPage from './app/screen/preferencesPage';
 import profilePage from './app/screen/profilePage';
 import welcomePage from './app/screen/welcomePage';
 import signup from './app/screen/signup';
+import event from './app/screen/eventPage';
 
 
 import {StackNavigator} from 'react-navigation'
@@ -33,6 +34,7 @@ const Navigation = StackNavigator({
         incidentsListPage: {screen: incidentsListPage},
         profilePage: {screen: profilePage},
         signup:{screen: signup},
+        event:{screen: event},
 
     },
     {

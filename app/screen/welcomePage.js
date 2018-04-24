@@ -30,10 +30,12 @@ export default class welcomePage extends React.Component {
                 <Text style={{fontSize: 25}}>
                     Witaj w aplikacji
                 </Text>
+
                 <Text style={welcomeStyle.appTitle}>TraffiKrK</Text>
                 <Text style={welcomeStyle.small}>Aplikacja przygotowuje się do jazdy </Text>
                 <Image source={require('./../assets/img/loader/car.gif')} style={welcomeStyle.image}/>
                 {/*<ActivityIndicator size="large" color="#0000ff" />*/}
+
             </View>
         );
 

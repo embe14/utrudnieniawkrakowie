@@ -1,13 +1,9 @@
-import React, {Component} from 'react';
-import {
-    Platform,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
+import React from 'react';
+import {Text, View,} from 'react-native';
+
 export default class incdentsListPage extends React.Component {
     static navigationOptions = {
-        title: 'Welcome',
+        title: 'Lista zdarzeń',
     };
 
 

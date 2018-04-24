@@ -1,11 +1,5 @@
-import React, {Component} from 'react';
-import {
-    Platform,
-    StyleSheet,
-    Text,
-    View,
-    Button,
-} from 'react-native';
+import React from 'react';
+import {Button, StyleSheet, View,} from 'react-native';
 
 import t from 'tcomb-form-native';
 
@@ -63,6 +57,8 @@ const options = {
 export default class loginForm extends React.Component{
     static navigationOptions = {
         title: 'Logowanie',
+        drawerLockMode: 'locked-closed',
+        drawerLabel: () => null
     };
 
     handleSubmit = () => {
@@ -91,8 +87,7 @@ export default class loginForm extends React.Component{
                     title="Zaloguj!"
                     onPress={this.handleSubmit}
                 />
-                <Text onPress={() => navigate('profilePage')}>Przejdz dalej do profilu</Text>
-                <Text onPress={() => navigate('mainPage')}>Przejdz dalej do glownego widoku</Text>
+                <Button title="Przejdz dalej do glownego widoku" onPress={() => navigate('Maps')}/>
             </View>
         );
     }

@@ -32,16 +32,23 @@ const formStyles = {
             fontWeight: '600'
         }
     },
+    textbox: {
+        normal: {
+            color: '#00FF00',
+        }
+    }
 };
 
 const options = {
     fields: {
         email: {
-            error: 'Email address jest wymagany.'
+            error: 'Email address jest wymagany.',
+            keyboardType: 'email-address',
         },
         password: {
             label: 'Hasło',
-            error: 'Hasło jest wymagane.'
+            error: 'Hasło jest wymagane.',
+            secureTextEntry: true,
         },
     },
     stylesheet: formStyles,
@@ -84,18 +91,6 @@ export default class loginForm extends React.Component{
             </View>
         );
     }
-    /*render() {
-        const {navigate} = this.props.navigation;
-        return (
-            <View style={styles.container}>
-                <Text>
-                    Witaj w formularzu
-                </Text>
-                <Text onPress={() => navigate('profilePage')}>Przejdz dalej do profilu</Text>
-                <Text onPress={() => navigate('mainPage')}>Przejdz dalej do glownego widoku</Text>
-            </View>
-        );
-    }*/
 }
 
 const styles = StyleSheet.create({

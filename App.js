@@ -9,7 +9,9 @@ import React, {Component} from 'react';
 import {StyleSheet,} from 'react-native';
 
 
+
 import Drawer from './app/screen/drawerNavigator';
+
 
 
 type Props = {};

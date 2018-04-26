@@ -43,6 +43,15 @@ export default class mainPage extends React.Component {
         this.getLocation();
     }
 
+    onBackButtonPressAndroid = () => {
+        if (this.isSelectionModeEnabled()) {
+            this.disableSelectionMode();
+            return true;
+        } else {
+            return false;
+        }
+    };
+
     getLocation() {
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -62,7 +71,6 @@ export default class mainPage extends React.Component {
 
         return (
             <View style={styles.container}>
-
                 <TouchableOpacity style={styles.iconPosition} onPress={() => navigate('DrawerOpen')}>
                     <Image style={styles.icon} source={require('./../assets/img/menu/hamburger.png')}/>
                 </TouchableOpacity>
@@ -78,10 +86,17 @@ export default class mainPage extends React.Component {
                              latitudeDelta: 0.03,
                              longitudeDelta: 0.0421,
                          }}
+                         zoomEnabled
                          showsUserLocation={true}
-                         loadingEnabled={true}
+                         followsUserLocation
+                         loadingEnabled
                          showsTraffic={true}
                          customMapStyle={require('./../assets/config/style/mapStyle.json')}
+                         showsMyLocationButton={true}
+                         zoomControlEnabled
+                         cacheEnabled={this.state.cache}
+                         loadingIndicatorColor="#666666"
+                         loadingBackgroundColor="#eeeeee"
                 >
                     <View style={{height: 500, width: 500}}>
                         {this.state.markers.map(marker => (

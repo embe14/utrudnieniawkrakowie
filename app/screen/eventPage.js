@@ -1,11 +1,5 @@
-import React, {Component} from 'react';
-import {
-    Platform,
-    StyleSheet,
-    Text,
-    View,
-    Button,
-} from 'react-native';
+import React from 'react';
+import {Button, Platform, StyleSheet, Text, View,} from 'react-native';
 
 import t from 'tcomb-form-native';
 
@@ -83,7 +77,8 @@ const options = {
 
 export default class signup extends React.Component {
     static navigationOptions = {
-        title: 'Dodaj zdarzenia',
+        drawerLabel: null,
+        title: 'Dodaj zdarzenie',
     };
 
     handleSubmit = () => {

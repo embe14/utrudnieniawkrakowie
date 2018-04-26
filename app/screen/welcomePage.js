@@ -6,7 +6,8 @@ export default class welcomePage extends React.Component {
     static navigationOptions = {
         header: null,
         drawerLockMode: 'locked-closed',
-        drawerLabel: () => null
+        drawerLabel: () => null,
+        headerLeft: null
     };
 
     constructor(props) {
@@ -34,7 +35,9 @@ export default class welcomePage extends React.Component {
                 <Text style={welcomeStyle.appTitle}>TraffiKrK</Text>
                 <Text style={welcomeStyle.small}>Aplikacja przygotowuje się do jazdy </Text>
                 <Image source={require('./../assets/img/loader/car.gif')} style={welcomeStyle.image}/>
-                {/*<ActivityIndicator size="large" color="#0000ff" />*/}
+                {/*
+
+                <ActivityIndicator size="large" color="#0000ff" />*/}
 
             </View>
         );

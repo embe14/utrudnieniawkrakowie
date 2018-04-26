@@ -1,5 +1,7 @@
 import React from 'react';
-import {Button, StyleSheet, View,} from 'react-native';
+import {Button, StyleSheet, Text, View,} from 'react-native';
+import firebase from 'react-native-firebase';
+import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 
 import t from 'tcomb-form-native';
 
@@ -32,12 +34,8 @@ const formStyles = {
             fontWeight: '600'
         }
     },
-    textbox: {
-        normal: {
-            color: '#00FF00',
-        }
-    }
 };
+
 
 const options = {
     fields: {
@@ -61,15 +59,37 @@ export default class loginForm extends React.Component{
         drawerLabel: () => null
     };
 
+    handleLoginGoogle =
+        async () => {
+            try {
+                // Add any configuration settings here:
+                await GoogleSignin.configure();
+
+                const data = await GoogleSignin.signIn();
+
+                // create a new firebase credential with the token
+                const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
+                // login with credential
+                const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+
+                console.info(JSON.stringify(currentUser.user.toJSON()));
+            } catch (e) {
+                return null;
+            }
+        };
+
+
     handleSubmit = () => {
         const value = this._form.getValue(); // use that ref to get the form value
         console.log('value: ', value);
     };
 
-    handleLoginGoogle = () => {
-        const value = this._form.getValue(); // use that ref to get the form value
-        console.log('value: ', value);
-    };
+    constructor() {
+        super();
+        this.state = {
+            isAuthenticated: false,
+        };
+    }
 
     render() {
         const {navigate} = this.props.navigation;
@@ -77,16 +97,18 @@ export default class loginForm extends React.Component{
         return (
             <View style={styles.container}>
                 <Form ref={c => this._form = c} type={User} options={options}/>
-                <Button
-                    styles={styles.transparentButton}
-                    title="Zaloguj przez Google"
-                    onPress={this.handleLoginGoogle}
-                    color="#e47365"
-                />
+                <View>
+                    <GoogleSigninButton
+                        style={{width: 48, height: 48}}
+                        size={GoogleSigninButton.Size.Icon}
+                        color={GoogleSigninButton.Color.Dark}
+                        onPress={this.handleLoginGoogle}/>
+                </View>
                 <Button
                     title="Zaloguj!"
                     onPress={this.handleSubmit}
                 />
+                <Button title="Załóż konto" onPress={() => navigate('signup')}/>
                 <Button title="Przejdz dalej do glownego widoku" onPress={() => navigate('Maps')}/>
             </View>
         );

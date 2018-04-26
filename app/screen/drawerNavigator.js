@@ -7,6 +7,7 @@ import mainPage from './mainPage';
 import loginForm from "./loginForm";
 import signup from "./signup";
 import welcomePage from "./welcomePage";
+import eventPage from "./eventPage";
 
 
 export default DrawerNavigator({
@@ -17,6 +18,7 @@ export default DrawerNavigator({
         WelcomePage: {screen: welcomePage},
         loginForm: {screen: loginForm},
         signup: {screen: signup},
+        event: {screen: eventPage}
 
 
     },
@@ -25,6 +27,7 @@ export default DrawerNavigator({
         initialRouteName: 'WelcomePage',
         drawerBackgroundColor: '#1bb584',
         drawerWidth: 200,
+
     })
 
 

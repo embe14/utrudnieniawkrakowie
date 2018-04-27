@@ -6,16 +6,22 @@
 
 import React, {Component} from 'react';
 
-import {StyleSheet,} from 'react-native';
-
+import {BackAndroid, StyleSheet} from 'react-native';
 
 
 import Drawer from './app/screen/drawerNavigator';
 
 
-
 type Props = {};
 export default class App extends Component<Props> {
+
+    componentDidMount() {
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            return true
+        });
+    }
+
+
     render() {
         return (
             <Drawer/>

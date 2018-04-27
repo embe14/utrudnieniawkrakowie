@@ -43,27 +43,23 @@ export default class mainPage extends React.Component {
         this.getLocation();
     }
 
-    onBackButtonPressAndroid = () => {
-        if (this.isSelectionModeEnabled()) {
-            this.disableSelectionMode();
-            return true;
-        } else {
-            return false;
-        }
-    };
 
     getLocation() {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                this.setState({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    error: null,
-                });
-            },
-            (error) => this.setState({error: error.message}),
-            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
-        );
+
+        setInterval(() => {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this.setState({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        error: null,
+                    });
+                },
+                (error) => this.setState({error: error.message}),
+                {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+            );
+        }, 500);
+
     }
 
     render() {
@@ -78,7 +74,7 @@ export default class mainPage extends React.Component {
                 <TouchableOpacity style={styles.eventButtonPosition} onPress={() => navigate('event')}>
                     <Button title='Dodaj' color="#047024" onPress={() => navigate('event')}/>
                 </TouchableOpacity>
-
+                <Text>{this.state.longitude},{this.state.latitude}</Text>
                 <MapView style={styles.map}
                          initialRegion={{
                              latitude: 50.0697015,

@@ -56,7 +56,8 @@ export default class loginForm extends React.Component{
     static navigationOptions = {
         title: 'Logowanie',
         drawerLockMode: 'locked-closed',
-        drawerLabel: () => null
+        drawerLabel: () => null,
+
     };
 
     handleLoginGoogle =
@@ -72,9 +73,10 @@ export default class loginForm extends React.Component{
                 // login with credential
                 const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
 
-                console.info(JSON.stringify(currentUser.user.toJSON()));
+                console.log(JSON.stringify(currentUser.user.toJSON()));
+                this.props.navigation.navigate("Maps")
             } catch (e) {
-                return null;
+                console.error(e);
             }
         };
 

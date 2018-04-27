@@ -1,5 +1,5 @@
 import React from 'react';
-import {DrawerNavigator} from 'react-navigation';
+import {DrawerItems, DrawerNavigator} from 'react-navigation';
 import profilePage from "./profilePage";
 import preferencesPage from "./preferencesPage";
 import incdentsListPage from "./incdentsListPage";
@@ -8,6 +8,15 @@ import loginForm from "./loginForm";
 import signup from "./signup";
 import welcomePage from "./welcomePage";
 import eventPage from "./eventPage";
+import {Alert, ScrollView, Text} from "react-native";
+
+
+const customContentComponent = (props) => (
+    <ScrollView>
+        <DrawerItems {...props}/>
+    </ScrollView>
+);
+
 
 
 export default DrawerNavigator({
@@ -23,6 +32,7 @@ export default DrawerNavigator({
 
     },
     {
+        contentComponent: customContentComponent,
         drawerPosition: 'left',
         initialRouteName: 'WelcomePage',
         drawerBackgroundColor: '#1bb584',

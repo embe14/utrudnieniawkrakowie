@@ -1,7 +1,18 @@
 import React from 'react';
-import {Button, StyleSheet, Text, View,} from 'react-native';
+import {
+    ActivityIndicator,
+    Button,
+    Dimensions,
+    Image,
+    StyleSheet,
+    Text,
+    ToastAndroid,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import firebase from 'react-native-firebase';
 import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
+import {AccessToken, LoginManager} from 'react-native-fbsdk';
 
 import t from 'tcomb-form-native';
 
@@ -60,6 +71,40 @@ export default class loginForm extends React.Component{
 
     };
 
+    handlefacebookLogin = async () => {
+        try {
+            this.setState({loading: true});
+            const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
+
+            if (result.isCancelled) {
+                throw new Error('User cancelled request'); // Handle this however fits the flow of your app
+            }
+
+            console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
+
+            // get the access token
+            const data = await AccessToken.getCurrentAccessToken();
+
+            if (!data) {
+                throw new Error('Something went wrong obtaining the users access token'); // Handle this however fits the flow of your app
+            }
+
+            // create a new firebase credential with the token
+            const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+
+            // login with credential
+            const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+
+            console.info(JSON.stringify(currentUser.user.toJSON()));
+            //to do handle inclomplete data like nick etc and move to signup screen
+            this.setState({loading: false});
+            this.props.navigation.navigate("Maps");
+
+        } catch (e) {
+
+        }
+    };
+
     handleLoginGoogle =
         async () => {
             try {
@@ -74,6 +119,7 @@ export default class loginForm extends React.Component{
                 const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
 
                 console.log(JSON.stringify(currentUser.user.toJSON()));
+                //TO DO handle inclomplete data like nick etc and move to signup screen
                 this.props.navigation.navigate("Maps")
             } catch (e) {
                 console.error(e);
@@ -81,15 +127,25 @@ export default class loginForm extends React.Component{
         };
 
 
-    handleSubmit = () => {
-        const value = this._form.getValue(); // use that ref to get the form value
-        console.log('value: ', value);
-    };
+    handleSubmit = async () => {
+        try {
+            const value = this._form.getValue();
+            const currentUser = await firebase.auth().signInAndRetrieveDataWithEmailAndPassword(value.email, value.password);
+            this.props.navigation.navigate("Maps");
+        }
+        catch (error) {
+            ToastAndroid.show('Niepoprawne dane logowania. Spróbuj ponownie.', ToastAndroid.LONG);
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(errorMessage)
+        }
 
+    }
     constructor() {
         super();
         this.state = {
             isAuthenticated: false,
+            loading: false,
         };
     }
 
@@ -99,17 +155,23 @@ export default class loginForm extends React.Component{
         return (
             <View style={styles.container}>
                 <Form ref={c => this._form = c} type={User} options={options}/>
-                <View>
+                <View style={{flexDirection: 'row', width: Dimensions.get('window').width}}>
                     <GoogleSigninButton
                         style={{width: 48, height: 48}}
                         size={GoogleSigninButton.Size.Icon}
                         color={GoogleSigninButton.Color.Dark}
                         onPress={this.handleLoginGoogle}/>
+                    <TouchableOpacity style={styles.iconPosition} onPress={() => this.handlefacebookLogin()}>
+                        <Image style={{width: 48, height: 48}}
+                               source={require('./../assets/img/icon/login/fbLogo.png')}/>
+                    </TouchableOpacity>
+                    <Button
+                        title="Zaloguj!"
+                        onPress={this.handleSubmit}
+                    />
                 </View>
-                <Button
-                    title="Zaloguj!"
-                    onPress={this.handleSubmit}
-                />
+
+                <ActivityIndicator animating={this.state.loading} size="large" color="#0000ff"/>
                 <Button title="Załóż konto" onPress={() => navigate('signup')}/>
                 <Button title="Przejdz dalej do glownego widoku" onPress={() => navigate('Maps')}/>
             </View>

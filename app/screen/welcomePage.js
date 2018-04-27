@@ -1,5 +1,5 @@
 import React from 'react';
-import {AsyncStorage, Image, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, AsyncStorage, Image, StyleSheet, Text, View} from 'react-native';
 import firebase from 'react-native-firebase';
 
 export default class welcomePage extends React.Component {

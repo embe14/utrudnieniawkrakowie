@@ -1,6 +1,8 @@
 import React from 'react';
-import {ActivityIndicator, AsyncStorage, Image, StyleSheet, Text, View} from 'react-native';
+import {AsyncStorage, Image, StyleSheet, Text, View} from 'react-native';
 import firebase from 'react-native-firebase';
+
+const db = firebase.firestore();
 
 export default class welcomePage extends React.Component {
     static navigationOptions = {
@@ -14,10 +16,8 @@ export default class welcomePage extends React.Component {
         super(props);
         this.state = {
             nav: null,
-            user: {
-                name: "",
-
-            }
+            user: "",
+            userData: null,
         }
     }
 
@@ -35,12 +35,46 @@ export default class welcomePage extends React.Component {
         }
     }
 
+    checkIfUserInfoExist(userData) {
+        var exist = false;
+
+        db.collection('users').doc(userData._user.uid).get().then((doc) => {
+
+                if (!doc.exists) {
+                    console.log("user info does not exist");
+                    exist = false
+                } else {
+                    console.log("user info  exist");
+                    exist = true;
+                }
+            }
+        )
+
+            .catch(error => {
+                console.log('Transaction failed: ', error);
+                throw error;
+            });
+        return exist;
+    }
+
     checkFirebase() {
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                console.log(user);
-                // this.setState({user.name :user._user.displayName});
-                this.setState({nav: "Maps"});
+        firebase.auth().onAuthStateChanged((currentUser) => {
+            if (currentUser) {
+                console.log(currentUser);
+                const displayName = currentUser._user.displayName
+                if (displayName !== null) {
+                    this.setState({user: displayName + " "});
+                }
+                const userInfoExist = this.checkIfUserInfoExist(currentUser);
+                console.log(userInfoExist);
+                if (userInfoExist) {
+                    console.log("gping to map");
+                    this.setState({nav: "Maps"});
+                } else {
+                    console.log("gping to fill");
+                    this.setState({userData: currentUser});
+                    this.setState({nav: "fillData"});
+                }
             } else {
                 this.setState({nav: "loginForm"});
             }
@@ -53,7 +87,7 @@ export default class welcomePage extends React.Component {
         await this.checkStorage();
         this.checkFirebase();
         this.timeoutHandle = setTimeout(() => {
-            navigate(this.state.nav);
+            navigate(this.state.nav, {userData: this.state.userData});
         }, 1500);
     }
 
@@ -67,7 +101,7 @@ export default class welcomePage extends React.Component {
         return (
             <View style={welcomeStyle.container}>
                 <Text style={welcomeStyle.small}>
-                    Witaj {this.state.user.name} w aplikacji
+                    Witaj {this.state.user}w aplikacji
                 </Text>
 
                 <Text style={welcomeStyle.appTitle}>TraffiKrK</Text>

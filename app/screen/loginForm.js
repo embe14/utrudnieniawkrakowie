@@ -5,7 +5,6 @@ import {
     Dimensions,
     Image,
     StyleSheet,
-    Text,
     ToastAndroid,
     TouchableOpacity,
     View
@@ -15,6 +14,9 @@ import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
 import {AccessToken, LoginManager} from 'react-native-fbsdk';
 
 import t from 'tcomb-form-native';
+
+
+const db = firebase.firestore();
 
 const Form = t.form.Form;
 
@@ -63,7 +65,7 @@ const options = {
     stylesheet: formStyles,
 };
 
-export default class loginForm extends React.Component{
+export default class loginForm extends React.Component {
     static navigationOptions = {
         title: 'Logowanie',
         drawerLockMode: 'locked-closed',
@@ -95,13 +97,18 @@ export default class loginForm extends React.Component{
             // login with credential
             const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
 
+
             console.info(JSON.stringify(currentUser.user.toJSON()));
+            const userData = currentUser.user.toJSON();
             //to do handle inclomplete data like nick etc and move to signup screen
             this.setState({loading: false});
-            this.props.navigation.navigate("Maps");
+            if (this.checkIfUserInfoExist(userData)) {
+                this.props.navigation.navigate("Maps");
+            }
+            else this.props.navigation.navigate("fillData", {userData: userData})
 
         } catch (e) {
-
+            console.error(e);
         }
     };
 
@@ -114,24 +121,31 @@ export default class loginForm extends React.Component{
                 const data = await GoogleSignin.signIn();
 
                 // create a new firebase credential with the token
-                const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
+                const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
                 // login with credential
                 const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
 
                 console.log(JSON.stringify(currentUser.user.toJSON()));
                 //TO DO handle inclomplete data like nick etc and move to signup screen
-                this.props.navigation.navigate("Maps")
+                const userData = currentUser.user;
+                console.log(userData._user.uid);
+                if (this.checkIfUserInfoExist(userData)) {
+                    this.props.navigation.navigate("Maps");
+                }
+                else this.props.navigation.navigate("fillData", {userData: userData})
             } catch (e) {
                 console.error(e);
             }
         };
-
-
     handleSubmit = async () => {
         try {
             const value = this._form.getValue();
             const currentUser = await firebase.auth().signInAndRetrieveDataWithEmailAndPassword(value.email, value.password);
-            this.props.navigation.navigate("Maps");
+            const userData = currentUser.user;
+            if (this.checkIfUserInfoExist(userData)) {
+                this.props.navigation.navigate("Maps");
+            }
+            else this.props.navigation.navigate("fillData", {userData: userData})
         }
         catch (error) {
             ToastAndroid.show('Niepoprawne dane logowania. Spróbuj ponownie.', ToastAndroid.LONG);
@@ -140,7 +154,13 @@ export default class loginForm extends React.Component{
             console.log(errorMessage)
         }
 
-    }
+    };
+    value = {
+        email: 'a@a.com',
+        password: '123456'
+    };
+
+
     constructor() {
         super();
         this.state = {
@@ -149,12 +169,31 @@ export default class loginForm extends React.Component{
         };
     }
 
+    checkIfUserInfoExist(userData) {
+
+
+        db.collection('users').doc(userData._user.uid).get().then((doc) => {
+                if (!doc.exists) {
+                    console.log("user info does not exist");
+                    return false
+                } else {
+                    return true;
+                }
+            }
+        )
+
+            .catch(error => {
+                console.log('Transaction failed: ', error);
+                throw error;
+            });
+    }
+
     render() {
         const {navigate} = this.props.navigation;
 
         return (
             <View style={styles.container}>
-                <Form ref={c => this._form = c} type={User} options={options}/>
+                <Form ref={c => this._form = c} value={this.value} type={User} options={options}/>
                 <View style={{flexDirection: 'row', width: Dimensions.get('window').width}}>
                     <GoogleSigninButton
                         style={{width: 48, height: 48}}

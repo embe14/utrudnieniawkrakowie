@@ -70,6 +70,7 @@ export default class signup extends React.Component {
         drawerLabel: () => null
     };
 
+
     handleSubmit = () => {
         const value = this._form.getValue(); // use that ref to get the form value
         console.log('value: ', value);
@@ -80,7 +81,7 @@ export default class signup extends React.Component {
         const {navigate} = this.props.navigation;
         return (
             <View style={styles.container}>
-                <Form ref={c => this._form = c} type={User} options={options}/>
+                <Form ref={c => this._form = c} values={this.values} type={User} options={options}/>
                 <Text>
                     Stworz konto - nick email haslo imie nazwisko
                 </Text>

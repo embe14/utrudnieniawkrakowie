@@ -7,6 +7,7 @@ import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -43,9 +44,9 @@ private static CallbackManager mCallbackManager = CallbackManager.Factory.create
             new RNFirebasePackage(),
             new MapsPackage(),
             new RNFirebaseAuthPackage(),
+            new RNFirebaseFirestorePackage(),
             new RNGoogleSigninPackage(),
             new FBSDKPackage(mCallbackManager)
-
       );
     }
 

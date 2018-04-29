@@ -8,7 +8,8 @@ import loginForm from "./loginForm";
 import signup from "./signup";
 import welcomePage from "./welcomePage";
 import eventPage from "./eventPage";
-import {Alert, ScrollView, Text} from "react-native";
+import {ScrollView} from "react-native";
+import fillUserDataPage from "./fillUserDataPage";
 
 
 const customContentComponent = (props) => (
@@ -27,7 +28,8 @@ export default DrawerNavigator({
         WelcomePage: {screen: welcomePage},
         loginForm: {screen: loginForm},
         signup: {screen: signup},
-        event: {screen: eventPage}
+        event: {screen: eventPage},
+        fillData: {screen: fillUserDataPage}
 
 
     },
